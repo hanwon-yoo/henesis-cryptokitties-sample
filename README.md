@@ -1,6 +1,7 @@
-# cryptokitties tutorial for henesis datastream
+# cryptokitties tutorial for henesis
 
-### module view
+more details: [docs](https://docs.henesis.io)
+### project architecture 
 - frontend
 ```
 src
