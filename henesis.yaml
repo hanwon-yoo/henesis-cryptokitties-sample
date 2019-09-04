@@ -1,5 +1,5 @@
 version: v1
-name: cryptokitties-example 
+name: kitty-tutorial 
 
 filters:
   contracts:
@@ -19,9 +19,8 @@ filters:
 blockchain:
   platform: ethereum 
   network: mainnet 
-  threshold: 1
-  interval: 333
+  threshold: 5
+  interval: 1000
 
 provider:
   type: webSocket
-  connectionLimit: 5
