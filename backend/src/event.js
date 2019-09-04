@@ -1,4 +1,5 @@
 import Henesis from '@haechi-labs/henesis-sdk-js'
+import { eventNames } from 'cluster';
 
 export default async function ({config, model}) {
     const henesis = new Henesis();
@@ -7,9 +8,9 @@ export default async function ({config, model}) {
         "streamedBlock"
     )
     subscription.on('message', async (message) => {
-        const event = messageToEvent(message)
-        model.save(event)
-        console.log(`data received, event:${event.event}`)
+        const events = messageToEvents(message)
+        events.forEach(event => model.save(event))
+        console.log(`data received, event:${events}`)
         message.ack();
     });
 
@@ -18,16 +19,17 @@ export default async function ({config, model}) {
     });
 
     //parsing logic
-    function messageToEvent(message) {
-        const event = message.data[0].events[0];
+    function messageToEvents(message) {
+        const events = message.data[0].events;
         const blockMeta = message.data[0].blockMeta
-        return {
-            event: event.eventName.split('(')[0],
-            contract: event.contractName,
-            transactionHash: event.transaction.hash,
-            args: dataToArgs(event.data),
-            blockMeta
-        }
+        return events.map( event =>{ 
+            return {
+                event: event.eventName.split('(')[0],
+                contract: event.contractName,
+                transactionHash: event.transaction.hash,
+                args: dataToArgs(event.data),
+                blockMeta
+        } })
         function dataToArgs(data) {
             const res = {}
             for (let item of data) {
