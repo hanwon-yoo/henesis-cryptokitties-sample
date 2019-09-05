@@ -45,7 +45,7 @@ npm install
 henesis login
 henesis integration:deploy
 ```
-after deploy, please modify integrationId at /backend/config.json
+after deploy, please modify integrationId at /backend/src/config.json 
 
 
 ### start
